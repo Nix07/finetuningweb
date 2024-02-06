@@ -2,18 +2,18 @@
 <html lang="en">
 
 <head>
-  <title>Discovering Variable Binding Circuitry with Desiderata</title>
+  <title>Fine-Tuning Enhances Existing Mechanisms: A Case Study on Entity Tracking</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description"
-    content="Locating casual components by optimizing a mask over examples exercising a circuit." />
-  <meta property="og:title" content="Discovering Variable Binding Circuitry with Desiderata" />
+    content="Mechansitic investigation on how fine-tuning augments large language models' capabilities." />
+  <meta property="og:title" content="Fine-Tuning Enhances Existing Mechanisms: A Case Study on Entity Tracking" />
   <meta property="og:description"
-    content="Locating casual components by optimizing a mask over examples exercising a circuit." />
+    content="Mechansitic investigation on how fine-tuning augments large language models' capabilities." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Discovering Variable Binding Circuitry with Desiderata" />
+  <meta name="twitter:title" content="Fine-Tuning Enhances Existing Mechanisms: A Case Study on Entity Tracking" />
   <meta name="twitter:description"
-    content="Locating casual components by optimizing a mask over examples exercising a circuit." />
+    content="Mechansitic investigation on how fine-tuning augments large language models' capabilities." />
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
@@ -90,30 +90,35 @@
     <div class="row justify-content-center text-center">
 
       <p>
-        <a href="https://arxiv.org/pdf/2307.03637.pdf" class="d-inline-block p-3 align-top" target="_blank"><img
-            height="100" width="78" src="images/paper-thumb.png" style="border:1px solid; margin: 0 38px;"
-            alt="ArXiv Preprint thumbnail" data-nothumb=""><br>ArXiv<br>Preprint</a>
-        <a href="https://github.com/Nix07/binding-circuit-discovery" class="d-inline-block p-3 align-top"
-          target="_blank"><img height="100" width="78" src="images/code-thumb.png"
-            style="border:1px solid; margin: 0 38px;" alt="Github code thumbnail" data-nothumb=""><br>Source
+        <a href="" class="d-inline-block p-3 align-top" target="_blank"><img height="100" width="78"
+            src="images/paper-thumb.png" style="border:1px solid; margin: 0 38px;" alt="ArXiv Preprint thumbnail"
+            data-nothumb=""><br>ArXiv<br>Preprint</a>
+        <a href="https://github.com/Nix07/finetuning" class="d-inline-block p-3 align-top" target="_blank"><img
+            height="100" width="78" src="images/code-thumb.png" style="border:1px solid; margin: 0 38px;"
+            alt="Github code thumbnail" data-nothumb=""><br>Source
           Code<br>Github</a>
+        <a href="https://huggingface.co/nikhil07prakash/float-7b" class="d-inline-block p-3 align-bottom"
+          target="_blank"><img height="78" width="104" src="images/huggingface-thumb.png" style="border:1px solid"
+            alt="Huggingface demo thumbnail" data-nothumb=""><br>Fine-Tuned<br>Model Weights</a>
+      </p>
       </p>
 
       <div class="card" style="max-width: 1020px;">
         <div class="card-block">
-          <h3>How to locate causal model components quickly?</h3>
-          <p>
-            Many approaches for identifying causal model components rely on <b>brute-force activation patching</b>, a
-            method that is both <b>slow</b> and <b>inefficient</b>. Moreover, these methods often fall short in
-            identifying components that collaborate to generate a desired output.
+          <h3>How Does Fine-Tuning Improve Language Models' Capabilities?</h3>
+          <p style="text-align: justify;">
+            Fine-tuning has become a ubiquitous technique for enhancing language models' capabilities across diverse
+            tasks. However, the mechanistic updates underpinning these performance gains remain poorly understood. Does
+            the fine-tuned model employ the same mechanism, or does it modify its algorithm to address a task? Are the
+            same set of model components (i.e. circuit) engaged in performing the task, or are
+            different ones involved?
           </p>
-          <p>
-            In this paper, we introduce a technique for <b>automatically identifying causal model components through
-              optimization over an intervention</b>. We establish a set of desiderata, representing the causal
-            attributes of the model components involved in the specific task. Utilizing a synthetically generated
-            dataset aligned with these desiderata, we optimize a binary mask over the model components to pinpoint the
-            causal elements. The resulting optimized mask identifies the model components that encode the desired
-            information, as semantically probed by the desiderata.
+          <p style="text-align: justify;">
+            <b>Our findings suggest that fine-tuning enhances, rather than fundamentally alters, the mechanistic
+              operation of the model</b>. Specifically, we observed that the task of entity tracking in Llama-7B and its
+            fine-tuned variants is primarily performed by the same circuit. Not only are the same set of components
+            involved, but their functionality also remains consistent across the models. Finally, we were
+            able to attribute the performance gap to an improved sub-mechansim in the fine-tuned models.
           </p>
         </div><!--card-block-->
       </div><!--card-->
@@ -123,92 +128,119 @@
     <div class="row">
       <div class="col">
 
+        <h2>Is The Same Circuit Present After Fine-Tuning? </h2>
+        <p>
+          We employ Path Patching to identify the circuit for entity tracking in Llama-7B, comprising four head groups,
+          as shown in Figure 1. Group D collects segment information at previous query label token and passes it
+          to Group C via V-composition. The output of Group C is then conveyed to the last token residual stream through
+          V-composition with Group B, and utilized by Group A heads via Q-composition to attend to the correct object
+          token.
+        </p>
+
         <figure class="center_image" style="margin-top: 30px">
-          <center><img src="images/paper/figure_1.png" style="width:100%; max-width:800px"></center>
+          <center><img src="images/paper/circuit_flow.png" style="width:100%; max-width:800px"></center>
           <figcaption>
-            Figure 1: <b>Localizing computation with desiderata.</b> The figure depicts training with a single
-            (original, alternate, target) tuple within a desideratum. We learn a mask <i>w</i> that combines activations
-            from an alternate sequence <i>a</i> into the computation of the model on the input of the original sequence
-            <i>o</i> such that the output <i>y</i> moves towards the target <i>t</i>.
+            Figure 1: <b>Entity Tracking circuit</b> (Cir). The circuit is composed of 4 groups of heads
+            (A,B,C,D) located at the last token (A,B), query label (C), and previous query label (D) token positions.
+            Each group is illustrated by a prominent head in that group.
           </figcaption>
         </figure>
 
-        <h2>Why use desiderata-based masking to locate model components? </h2>
         <p>
-          A significant limitation of current methods for identifying the circuit responsible for a specific task is
-          that, while they aid in localizing components within the neural network, they fail to offer insights into
-          the semantics of these components. In other words, they do not tell you what the components are doing. This
-          is where our method comes in. We use desiderata to guide the optimization of the mask. This allows us to not
-          only locate the components, but also <b>understand what they are doing</b>. This is a major advantage of our
-          method over existing methods.
+          Surprisely, we found that the <b>same circuit is primarily responsible for performing entity tracking in
+            both the base and fine-tuned models</b>. Specifically, Vicuna-7B utilizes roughly the same circuit as that
+          of Llama-7B to perform entity tracking. Whereas, in Goat-7B and FLoat-7B, the same circuit is present, but
+          with additional components.
         </p>
 
-        <h2>How to locate model components using a test set?</h2>
+        <table class="table table-bordered">
+          <tr>
+            <th></th>
+            <th></th>
+            <th colspan="3" style="text-align: center;">Accuracy</th>
+          </tr>
+          <tr>
+            <th>Model</th>
+            <th style="text-align: center;">Finetuned?</th>
+            <th style="text-align: center;">Full-Model</th>
+            <th style="text-align: center;">Circuit</th>
+            <th style="text-align: center;">Random Circuit</th>
+            <th style="text-align: center;">Faithfulness</th>
+          </tr>
+          <tr>
+            <td>Llama-7B</td>
+            <td style="text-align: center;">--</td>
+            <td style="text-align: center;">0.66</td>
+            <td style="text-align: center;">0.66</td>
+            <td style="text-align: center;">0.00</td>
+            <td style="text-align: center;">1.00</td>
+          </tr>
+          <tr>
+            <td>Vicuna-7B</td>
+            <td style="text-align: center;">User conversations</td>
+            <td style="text-align: center;">0.67</td>
+            <td style="text-align: center;">0.65</td>
+            <td style="text-align: center;">0.00</td>
+            <td style="text-align: center;">0.97</td>
+          </tr>
+          <tr>
+            <td>Goat-7B</td>
+            <td style="text-align: center;">Arithmetic tasks (LoRA)</td>
+            <td style="text-align: center;">0.82</td>
+            <td style="text-align: center;">0.73</td>
+            <td style="text-align: center;">0.01</td>
+            <td style="text-align: center;">0.89</td>
+          </tr>
+          <tr>
+            <td>FLoat-7B</td>
+            <td style="text-align: center;">Arithmetic tasks (w/o LoRA)</td>
+            <td style="text-align: center;">0.82</td>
+            <td style="text-align: center;">0.72</td>
+            <td style="text-align: center;">0.01</td>
+            <td style="text-align: center;">0.88</td>
+          </tr>
+        </table>
+
+        <h2>Is Circuit Functionality The Same After Fine-Tuning?</h2>
         <p>
-          Follow these steps to locate model components using the desiderata-based masking technique:
-        <ol>
-          <li><b>Specify the model component granularity to explore</b>: Specify the granularity
-            of the model components to explore. This can be at the level of layers, neurons, or attention
-            heads. More granular components is more computational expensive, but allows for
-            more specific localization of a model behavior.
-          </li>
-          <li><b>Define the desiderata</b> with various types of interventions on the desired circuit. These are the
-            causal attributes of the model components involved in the task under investigation.
-          </li>
-          <li><b>Generate a synthetic dataset</b> aligned with the desiderata. Each desideratum <i>d</i> corresponds to
-            a set of <i>n</i> 3-tuple, each
-            of which consists of an original sequence <i>(o)</i>, an alternate
-            sequence <i>(a)</i>, and a target value <i>(t)</i>. When the activation of
-            the sought-after circuitry generated with <i>o</i> is replaced with
-            the corresponding activation generated with <i>a</i>, the model
-            should output <i>t</i>. The target value <i>(t)</i> is determined based
-            on the nature of the intervention: it can remain equal to the
-            output of <i>o</i> (indicating no change in the output is expected),
-            be altered to match the output of <i>a</i>, or be set to a completely
-            different third value.
-            <figure class="center_image" style="margin-top: 30px">
-              <center><img src="images/paper/figure_2.png" style="width:100%; max-width:800px"></center>
-              <figcaption>
-                Figure 2. <b>Variable Binding Desiderata</b>. Each desideratum is a set of original <i>(o)</i>,
-                alternate <i>(a)</i>, and
-                target <i>(t)</i> 3-tuples. In the Value Dependence desideratum, patching should change the output to
-                the alternate's output; in the Operation
-                Invariance desideratum, patching should have no effect.
-              </figcaption>
-            </figure>
-          </li>
-          <li><b>Learn a binary mask over model components</b> to pinpoint the causal elements. The mask is optimized
-            to minimize the difference between the model output on the original sequence after the intervention and the
-            target value.
-
-            <figure class="center_image" style="margin-top: 30px">
-              <center><img src="images/paper/DCM_eqns.png" style="width:75%; max-width:800px"></center>
-            </figure>
-
-            We use l<sub>0.5</sub> regularization with tunable strength λ over the mask entries to encourage
-            patching only a sparse set of model components.
-          </li>
-        </ol>
+          We employ Desiderata-based Component Masking (DCM) to discern the functionality of circuit components. For
+          more details on the method, please refer to <a href="https://dcm.baulab.info/">dcm.baulab.info</a>.
         </p>
-        </p>
-
-        <h2>Varibale Binding Circuit: A Proof of Concept</h2>
-        <p>
-          As a proof
-          of concept, we apply our method to automatically discover shared <b>variable binding circuitry</b> in
-          LLaMA-13B, which retrieves variable values for
-          multiple arithmetic tasks. Our method successfully localizes variable binding to only 9 attention
-          heads (of the 1.6k) and one MLP in the final token’s residual stream.
-        </p>
-        <!-- <figure class="center_image" style="margin-top: 30px">
-          <center><img src="images/paper/esd.png" style="width:100%; max-width:800px"></center>
+        <figure class="center_image" style="margin-top: 30px">
+          <center><img src="images/paper/DCM_all.png" style="width:100%; max-width:800px"></center>
           <figcaption>
-            Somecaption here.
+            Figure 2: <b>Circuit Functionality in Llama-7B, Vicuna-7B, Goat-7B, and FLoat-7B</b>. We use DCM
+            to uncover the functionality of each subgroup of the circuit. Group A (pink) is mainly sensitive to the
+            value desideratum, while groups B, C (purple, turquoise) are responsible for positional information.
+            We find group D insensitive to each of the three desideratum. Error bars indicate bootstrap variance.
           </figcaption>
-        </figure> -->
+        </figure>
+        <p>
+          We found that the <b>functionality of the circuit components remains consistent across the models</b>.
+          Specifically,
+          Group A is mainly sensitive to the value desideratum, while Groups B and C are responsible for positional
+          information. We also observed that Group D is insensitive to each of the three desideratum.
+        </p>
+        <p>
+          The observations that the same circuit is primarily responsible for performing entity tracking in both the
+          base and fine-tuned models, and that the functionality of the circuit components remains consistent across the
+          models, indicates that the <b>fine-tuned models leverage the same mechanism as the base model</b> to perform
+          entity tracking.
+        </p>
+
+        <h2>Why Does Goat Perform Better?</h2>
+        <p>
+          To attribute the performance gap between Goat-7B and Llama-7B to a specific sub-mechanism, we propose a
+          novel method <b>Cross-Model Activation Patching</b> (CMAP). Unlike naive activation patching which
+          involves patching activations of the same model on different inputs, CMAP requires patching activations of the
+          same components of different models on the same input. More specifically, we patch the output of heads in
+          Goat-7B circuit from the Goat-7B model to Llama-7B model, to identify which step in Goat-7B model has improved
+          compared to Llama-7B.
+        </p>
 
         <h2>Related Works</h2>
-        <p>Our work builds upon the existing research that aims to localize model components responsible for performing
+        <p>Our work builds upon the existing research that aims to localize model components responsible for
+          performing
           specific tasks:
         </p>
         <p class="citation">
@@ -218,8 +250,10 @@
             Advances in Neural Information Processing Systems (2023).
           </a>
           <br>
-          <b>Notes:</b> Proposed <i>Causal Tracing</i> to locate factual associations. This uncovers a specific sequence
-          of steps within middle-layer feed-forward modules that play a role in mediating factual predictions during the
+          <b>Notes:</b> Proposed <i>Causal Tracing</i> to locate factual associations. This uncovers a specific
+          sequence
+          of steps within middle-layer feed-forward modules that play a role in mediating factual predictions during
+          the
           processing of subject tokens.
         </p>
 
@@ -240,7 +274,8 @@
             Scale: Identifying Causal Mechanisms in Alpaca. arXiv preprint (2024).
           </a>
           <br>
-          <b>Notes:</b> Proposed <i>Boundless Distributed Alignment Search (Boundless DAS)</i> to uncover the alignments
+          <b>Notes:</b> Proposed <i>Boundless Distributed Alignment Search (Boundless DAS)</i> to uncover the
+          alignments
           between interpretable
           symbolic algorithms and the neural network's internal representations.
         </p>
@@ -252,7 +287,8 @@
             Automated Circuit Discovery for Mechanistic Interpretability. arXiv preprint (2023).
           </a>
           <br>
-          <b>Notes:</b> Proposed <i>Automatic Circuit DisCovery (ACDC)</i> to automatically discover the circuits based
+          <b>Notes:</b> Proposed <i>Automatic Circuit DisCovery (ACDC)</i> to automatically discover the circuits
+          based
           on the choosen metric and dataset.
         </p>
 
